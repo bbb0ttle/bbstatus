@@ -8,10 +8,8 @@
 <style>
   :root {
     --bg: #0a0a0a;
-    --surface: #111111;
-    --surface-hover: #161616;
     --border: rgba(255,255,255,0.08);
-    --border-strong: rgba(255,255,255,0.14);
+    --border-strong: rgba(255,255,255,0.16);
     --text: #fafafa;
     --text-secondary: #a1a1a1;
     --text-tertiary: #666666;
@@ -19,7 +17,6 @@
     --warn: #f5b83d;
     --err: #f0506e;
     --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
-    --radius: 12px;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
   html { color-scheme: dark; }
@@ -27,82 +24,66 @@
     background: var(--bg);
     color: var(--text);
     font-family: ui-sans-serif, -apple-system, "SF Pro Text", Inter, "Helvetica Neue", "PingFang SC", "Noto Sans SC", sans-serif;
-    font-size: 14px;
-    line-height: 1.5;
+    font-size: 14px; line-height: 1.5;
     -webkit-font-smoothing: antialiased;
     min-height: 100vh;
   }
-  .page { max-width: 960px; margin: 0 auto; padding: 48px 24px 64px; }
+  .page { max-width: 760px; margin: 0 auto; padding: 64px 24px 64px; }
 
-  header {
-    display: flex; align-items: baseline; justify-content: space-between;
-    gap: 16px; margin-bottom: 32px; flex-wrap: wrap;
-  }
-  h1 { font-size: 22px; font-weight: 600; letter-spacing: -0.02em; }
+  header { margin-bottom: 48px; }
+  .brand { font-size: 13px; color: var(--text-tertiary); margin-bottom: 12px; }
   .overall {
     display: flex; align-items: center; gap: 10px;
-    font-size: 13px; color: var(--text-secondary);
-    font-variant-numeric: tabular-nums;
+    font-size: 20px; font-weight: 600; letter-spacing: -0.02em;
   }
-  .overall .dot { width: 8px; height: 8px; border-radius: 50%; }
+  .overall .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
 
   h2 {
-    font-size: 11px; font-weight: 500; letter-spacing: 0.08em;
-    text-transform: uppercase; color: var(--text-tertiary);
-    margin: 28px 0 12px;
+    font-size: 12px; font-weight: 500; letter-spacing: 0.06em;
+    color: var(--text-tertiary);
+    margin: 36px 0 4px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-
-  .card {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 16px 18px;
-    transition: border-color 200ms var(--ease-out), background 200ms var(--ease-out), transform 160ms var(--ease-out);
-    cursor: default;
+  .row {
+    display: flex; align-items: center; justify-content: space-between;
+    gap: 16px; padding: 12px 0;
+    border-bottom: 1px solid var(--border);
   }
-  .card:hover { border-color: var(--border-strong); background: var(--surface-hover); }
-  .card:active { transform: scale(0.98); }
-  .card.down { border-color: rgba(240,80,110,0.35); }
+  .row-name { font-weight: 500; font-size: 14px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .row-right { display: flex; align-items: center; gap: 14px; flex-shrink: 0; }
+  .row-lat { font-size: 12px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; min-width: 52px; text-align: right; }
+  .row-status { font-size: 12px; color: var(--text-secondary); min-width: 64px; text-align: right; }
+  .row-status.ok  { color: var(--ok); }
+  .row-status.bad { color: var(--err); }
+  .row-status.unk { color: var(--warn); }
 
-  .card-top { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; }
-  .dot {
-    width: 8px; height: 8px; border-radius: 50%;
-    background: var(--ok);
-    box-shadow: 0 0 0 3px color-mix(in srgb, var(--ok) 18%, transparent);
-    flex-shrink: 0;
-  }
-  .dot.down  { background: var(--err); box-shadow: 0 0 0 3px color-mix(in srgb, var(--err) 18%, transparent); }
-  .dot.unk   { background: var(--warn); box-shadow: 0 0 0 3px color-mix(in srgb, var(--warn) 18%, transparent); }
-  .card-name { font-weight: 500; font-size: 14px; letter-spacing: -0.01em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .card-status { margin-left: auto; font-size: 12px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
-
-  .metrics { display: flex; gap: 20px; margin-bottom: 14px; }
-  .metric .v { font-size: 17px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; }
-  .metric .l { font-size: 11px; color: var(--text-tertiary); margin-top: 1px; }
-
-  .bars { display: flex; gap: 2px; height: 22px; align-items: flex-end; }
+  .bars { display: flex; gap: 1.5px; height: 26px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+  .row:last-child, .bars:last-of-type { border-bottom: none; }
   .bars .b {
-    flex: 1; height: 100%; border-radius: 2px;
-    background: color-mix(in srgb, var(--ok) 70%, transparent);
-    transition: transform 140ms var(--ease-out), opacity 140ms var(--ease-out);
-    transform-origin: bottom;
+    flex: 1; border-radius: 1px;
+    background: var(--ok); opacity: 0.75;
+    transition: opacity 120ms var(--ease-out);
   }
-  .bars .b:hover { transform: scaleY(0.85); opacity: 0.8; }
-  .bars .b.bad { background: color-mix(in srgb, var(--err) 70%, transparent); }
-  .bars .b.none { background: var(--border); opacity: 0.5; }
+  .bars .b:hover { opacity: 1; }
+  .bars .b.bad { background: var(--err); }
+  .bars .b.none { background: var(--border-strong); opacity: 0.3; }
+  .bars-meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--text-tertiary); margin-top: -8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); font-variant-numeric: tabular-nums; }
 
-  .card-foot { display: flex; justify-content: space-between; margin-top: 8px; font-size: 11px; color: var(--text-tertiary); font-variant-numeric: tabular-nums; }
-
-  .skeleton { animation: pulse 1.6s ease-in-out infinite; }
+  .skeleton { animation: pulse 1.6s ease-in-out infinite; height: 90px; border-radius: 8px; background: rgba(255,255,255,0.04); }
   @keyframes pulse { 50% { opacity: 0.5; } }
   .err-box {
-    border: 1px solid rgba(240,80,110,0.3); border-radius: var(--radius);
+    border: 1px solid rgba(240,80,110,0.3); border-radius: 8px;
     padding: 20px; color: var(--text-secondary); font-size: 13px;
     background: rgba(240,80,110,0.05);
   }
-  footer { margin-top: 40px; font-size: 12px; color: var(--text-tertiary); display: flex; justify-content: space-between; }
+  footer {
+    margin-top: 56px; padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px; color: var(--text-tertiary);
+    display: flex; justify-content: space-between;
+  }
   a { color: inherit; text-decoration: none; }
   a:hover { color: var(--text-secondary); }
 </style>
@@ -110,80 +91,72 @@
 <body>
 <div class="page">
   <header>
-    <h1>服务状态</h1>
-    <div class="overall" id="overall"><span class="dot" style="background:var(--border)"></span><span>连接中…</span></div>
+    <div class="brand">lan.bbki.ng</div>
+    <div class="overall" id="overall"><span class="dot" style="background:var(--border-strong)"></span><span>连接中…</span></div>
   </header>
-  <main id="main"><div class="skeleton" style="height:120px;border-radius:12px;background:var(--surface)"></div></main>
+  <main id="main"><div class="skeleton"></div></main>
   <footer>
     <span id="updated">—</span>
-    <a href="https://gatus.io" target="_blank" rel="noopener">Powered by Gatus API</a>
+    <a href="https://gatus.io" target="_blank" rel="noopener">Gatus API</a>
   </footer>
 </div>
 <script>
 const $ = (s, e=document) => e.querySelector(s);
 const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
 const fmtMs = ns => { const ms = Math.round(ns/1e6); return ms >= 1000 ? (ms/1000).toFixed(2)+'s' : ms+'ms'; };
-const ago = ts => { const s = Math.floor((Date.now()-new Date(ts))/1000); return s<60 ? s+'s前' : s<3600 ? Math.floor(s/60)+'分钟前' : Math.floor(s/3600)+'小时前'; };
+
+const SEGS = 90;
 
 async function load() {
-  const main = $('#main');
   try {
     const r = await fetch('/api/v1/endpoints/statuses', { cache: 'no-store' });
     if (!r.ok) throw new Error('API '+r.status);
     const data = await r.json();
     render(Array.isArray(data) ? data : (data.endpoints || []));
   } catch (e) {
-    main.innerHTML = '<div class="err-box">无法读取 Gatus API（'+esc(e.message)+'）。探测服务可能在重启，稍后自动重试。</div>';
+    $('#main').innerHTML = '<div class="err-box">无法读取 Gatus API（'+esc(e.message)+'）。探测服务可能在重启，稍后自动重试。</div>';
   }
 }
 
-function epStats(ep) {
+function stats(ep) {
   const rs = (ep.results || []).slice().sort((a,b) => new Date(a.timestamp)-new Date(b.timestamp));
   const last = rs[rs.length-1];
-  const okN = rs.filter(x => x.success).length;
-  const uptime = rs.length ? (okN/rs.length*100) : null;
-  const avg = rs.length ? rs.reduce((s,x)=>s+(x.duration||0),0)/rs.length : 0;
-  return { rs, last, uptime, avg, up: last ? !!last.success : null };
+  const ok = rs.filter(x => x.success).length;
+  return { rs, last, uptime: rs.length ? ok/rs.length*100 : null, up: last ? !!last.success : null };
 }
 
-function card(ep) {
-  const { rs, last, uptime, avg, up } = epStats(ep);
-  const down = up === false;
-  const status = up === null ? '无数据' : (up ? '正常' : '异常');
-  const dotCls = up === null ? 'unk' : (up ? '' : 'down');
-  const segs = Array.from({length: 60}, (_, i) => {
-    const r = rs[rs.length-60+i];
+function row(ep) {
+  const { rs, last, uptime, up } = stats(ep);
+  const stCls = up === null ? 'unk' : (up ? 'ok' : 'bad');
+  const stTxt = up === null ? '无数据' : (up ? '正常' : '异常');
+  const lat = last && last.duration ? fmtMs(last.duration) : '—';
+  const segs = Array.from({length: SEGS}, (_, i) => {
+    const r = rs[rs.length-SEGS+i];
     const cls = r === undefined ? 'none' : (r.success ? '' : 'bad');
-    const t = r ? `${new Date(r.timestamp).toLocaleTimeString()} · ${r.success?'✓':'✗'} ${fmtMs(r.duration||0)}` : '';
+    const t = r ? `${new Date(r.timestamp).toLocaleString()} · ${r.success?'正常':'异常'} · ${fmtMs(r.duration||0)}` : '';
     return `<div class="b ${cls}" title="${esc(t)}"></div>`;
   }).join('');
-  return `<div class="card${down?' down':''}">
-    <div class="card-top">
-      <span class="dot ${dotCls}"></span>
-      <span class="card-name">${esc(ep.name)}</span>
-      <span class="card-status">${status}</span>
-    </div>
-    <div class="metrics">
-      <div class="metric"><div class="v">${uptime===null?'—':uptime.toFixed(1)+'%'}</div><div class="l">可用率</div></div>
-      <div class="metric"><div class="v">${rs.length?fmtMs(avg):'—'}</div><div class="l">平均延迟</div></div>
-      <div class="metric"><div class="v">${last?fmtMs(last.duration||0):'—'}</div><div class="l">最近</div></div>
+  const up2 = uptime === null ? '—' : uptime.toFixed(1)+'% 可用率';
+  return `<div class="row">
+      <span class="row-name">${esc(ep.name)}</span>
+      <span class="row-right"><span class="row-lat">${lat}</span><span class="row-status ${stCls}">${stTxt}</span></span>
     </div>
     <div class="bars">${segs}</div>
-    <div class="card-foot"><span>${rs.length?ago(rs[rs.length-1].timestamp):'—'}</span><span>60次探测</span></div>
-  </div>`;
+    <div class="bars-meta"><span>${up2}</span><span>最近 ${Math.min(rs.length,SEGS)} 次探测</span></div>`;
 }
 
 function render(eps) {
   const groups = {};
   for (const ep of eps) (groups[ep.group||'服务'] ??= []).push(ep);
-  const all = eps.map(epStats);
-  const up = all.filter(s => s.up === true).length, down = all.filter(s => s.up === false).length;
+  const st = eps.map(stats);
+  const down = st.filter(s => s.up === false).length;
+  const up = st.filter(s => s.up === true).length;
   $('#overall').innerHTML = down
-    ? `<span class="dot down"></span><span>${down} 项异常 · ${up}/${eps.length} 在线</span>`
-    : `<span class="dot"></span><span>全部正常 · ${up}/${eps.length} 在线</span>`;
+    ? `<span class="dot" style="background:var(--err);box-shadow:0 0 0 4px color-mix(in srgb,var(--err) 15%,transparent)"></span><span>${down} 项服务异常</span>`
+    : `<span class="dot" style="background:var(--ok);box-shadow:0 0 0 4px color-mix(in srgb,var(--ok) 15%,transparent)"></span><span>全部系统正常</span>`;
   $('#main').innerHTML = Object.entries(groups).map(([g, list]) =>
-    `<h2>${esc(g)}</h2><div class="grid">${list.map(card).join('')}</div>`).join('');
-  $('#updated').textContent = '更新于 ' + new Date().toLocaleTimeString();
+    `<h2>${esc(g)}</h2>` + list.map(row).join('')).join('');
+  $('#updated').textContent = '更新于 ' + new Date().toLocaleTimeString() + ' · 每 30s';
 }
 
 load();
